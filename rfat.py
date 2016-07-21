@@ -12,7 +12,7 @@ def setLogger():
     Logger configuration
     """
     logger = logging.getLogger(__name__)
-    logger.setlevel(logging.INFO)
+    logger.setLevel(logging.INFO)
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
     formatter = logging.Formatter('%(message)s')
@@ -156,16 +156,16 @@ def fill_tags(filename, tracknumber):
 def main():
     logger = setLogger()
     audio_files = []
-    for file in os.listdir():
-        if os.path.splitext(file)[-1] in AUDIO_TYPES:
-            audio_files.append(file)
+    for file_object in os.listdir():
+        if os.path.splitext(file_object)[-1] in AUDIO_TYPES:
+            audio_files.append(file_object)
     for index, audio in enumerate(audio_files):
         new_name = rename_audio(audio)
         fill_tags(new_name, index + 1)
-        logger.info("%s/%s %s -> %s proceeded" % (index + 1,
-                                                  len(audio_files),
-                                                  audio,
-                                                  new_name))
+        logger.info("%s/%s %s -> %s",
+                    index + 1, len(audio_files),
+                    audio,
+                    new_name)
     logger.info("Converting done.")
 
 if __name__ == "__main__":
