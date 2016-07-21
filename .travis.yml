@@ -1,9 +1,18 @@
 language: python
 python:
     - "3.5"
+sudo:
+    required
 install:
-    - sudo apt-get install libtag1-dev
+    - wget https://taglib.github.io/releases/taglib-1.11.tar.gz
+    - tar -xvf taglib-1.11.tar.gz
+    - cd taglib-1.11
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON
+    - make
+    - sudo make install
+    - cd ..
     - pip install -r requirements.txt
+    - sudo ldd /home/travis/virtualenv/python3.5.0/lib/python3.5/site-packages/taglib.cpython-35m-x86_64-linux-gnu.so
     - pip install coveralls
     - pip install nose
 script:
