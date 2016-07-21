@@ -1,7 +1,8 @@
-from rfat import *
 import unittest
+import os
 from taglib import File
-import shutil
+from rfat import *
+
 
 class TestTransliterate(unittest.TestCase):
     """
@@ -71,6 +72,30 @@ class TestRenamer(unittest.TestCase):
             print(a, b)
         for filename, expectation in zip(audios, expected):
             self.assertEqual(filename, expectation)
+
+
+class TestTagsFiller(unittest.TestCase):
+    """
+    Class for testing fill_tags
+    """
+    def test_simple_tags_filling(self):
+        """
+        """
+        filename = "test.mp3"
+        tracknumber = 1
+        f = open(filename, 'w+')
+        f.close()
+        audio = File(filename)
+        audio.tags['TITLE'] = "fill"
+        audio.tags['TRACKNUMBER'] = "2"
+        audio.save()
+        fill_tags(filename, tracknumber)
+        audio = File(filename)
+        self.assertEqual(audio.tags['TITLE'], [os.path.splitext(filename)[-1]])
+        self.assertEqual(audio.tags['TRACKNUMBER'], [str(tracknumber)])
+        with self.assertRaises(KeyError):
+            audio.tags['ARTIST']
+
 
 if __name__ == "__main__":
     unittest.main()
