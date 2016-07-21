@@ -9,6 +9,7 @@ AUDIO_TYPES = ['.mp3', '.ac3', '.wma', '.flac']
 
 def setLogger():
     """
+    Logger configuration
     """
     logger = logging.getLogger(__name__)
     logger.setlevel(logging.INFO)
