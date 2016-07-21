@@ -41,8 +41,10 @@ class TestRenamer(unittest.TestCase):
         """
         Remove all mp3s
         """
-        if os.path.exists("audio"):
-            shutil.rmtree("audio")
+        audios = filter(lambda x: x.endswith(".mp3"), os.listdir())
+        if audios:
+            for audio in audios:
+                os.remove(audio)
 
     def test_filename_transliterate(self):
         """
@@ -56,20 +58,17 @@ class TestRenamer(unittest.TestCase):
         """
         Bunch of files should be properly renamed
         """
-        os.mkdir("audio")
-        os.chdir("audio")
         bunch = ["1.тест.mp3", "2.smash.mp3", "3.дdд.mp3"]
         expected = ["1.test.mp3", "2.smash.mp3", "3.ddd.mp3"]
         for audio in bunch:
             f = open(audio, 'w+')
             f.close()
-
-        for audio in os.listdir():
+        audios = filter(lambda x: x.endswith(".mp3"), os.listdir())
+        for audio in audios:
             rename_audio(audio)
-
-        for filename, expectation in zip(os.listdir(), expected):
+        audios = filter(lambda x: x.endswith(".mp3"), os.listdir())
+        for filename, expectation in zip(audios, expected):
             self.assertEqual(filename, expectation)
-        os.chdir('..')
 
 if __name__ == "__main__":
     unittest.main()
