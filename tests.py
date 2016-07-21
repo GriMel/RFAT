@@ -67,6 +67,8 @@ class TestRenamer(unittest.TestCase):
         for audio in audios:
             rename_audio(audio)
         audios = filter(lambda x: x.endswith(".mp3"), os.listdir())
+        for a, b in zip(audios, expected):
+            print(a, b)
         for filename, expectation in zip(audios, expected):
             self.assertEqual(filename, expectation)
 
